@@ -6,9 +6,10 @@ bun dev
 ```
 
 Technical Stack:
-- Next.js
+- React Router
 - motion/react
 - shadcn/ui
 - bun
+- mdxjs
 
 AI Agent was used during the development.
