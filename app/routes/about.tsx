@@ -46,7 +46,7 @@ export default function AboutPage() {
             </Button>
           </Link>
           <h1 className="text-4xl font-bold">关于</h1>
-          <p className="text-muted-foreground mt-2">了解毛乔和他的小站</p>
+          <p className="text-muted-foreground mt-2">毛乔的个人主页</p>
         </motion.div>
 
         <div className="space-y-6 max-w-3xl">
