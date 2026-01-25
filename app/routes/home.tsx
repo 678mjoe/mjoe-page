@@ -74,7 +74,7 @@ export default function HomePage() {
           >
             <Link to="/blog">
               <Button className="gap-2 min-w-[80px]">
-                阅读博客
+                看看博客
                 <ArrowRight className="size-4" />
               </Button>
             </Link>
