@@ -5,6 +5,13 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router";
 import { ArrowRight, Sparkles } from "lucide-react";
 
+export function meta() {
+  return [
+    { title: "M.Joe Page" },
+    { name: "description", content: "即使生活并不诗意，也请你诗性地生活。毛乔的个人主页，记录技术与生活的点滴。" },
+  ];
+}
+
 export default function HomePage() {
   return (
     <div className="min-h-screen relative overflow-hidden">
@@ -80,7 +87,7 @@ export default function HomePage() {
             </Link>
             <Link to="/about">
               <Button variant="outline" className="gap-2 min-w-[60px]">
-                关于本站
+                关于
               </Button>
             </Link>
           </motion.div>

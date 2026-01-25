@@ -7,6 +7,13 @@ import { motion } from "motion/react";
 import { Link } from "react-router";
 import { Badge } from "@/components/ui/badge";
 
+export function meta() {
+  return [
+    { title: "关于 - M.Joe Page" },
+    { name: "description", content: "了解毛乔、本站技术栈和版权信息。" },
+  ];
+}
+
 function Section({ children, index }: { children: React.ReactNode; index: number }) {
   return (
     <motion.div
@@ -75,7 +82,7 @@ export default function AboutPage() {
                       关于毛乔
                     </h2>
                     <p className="text-muted-foreground leading-relaxed">
-                      左边的是毛乔本体。它既不是猫，也不是狗。就是毛乔而已。
+                      左边的是毛乔，或者叫M.Joe，的本体。它既不是猫，也不是狗。就是毛乔而已。
                     </p>
                     <p className="text-muted-foreground leading-relaxed">
                       他的特点是左边比右边高。当然对毛乔自己来说或者从背面看就是右边比左边高了，可是现在这个世界上好像暂时还没有人从背后看到过毛乔。所以不妨还是说左边比右边高吧。
@@ -97,7 +104,7 @@ export default function AboutPage() {
               <CardContent className="pt-2 space-y-4">
                 <h2 className="text-2xl font-semibold">为啥本站是这样的</h2>
                 <p className="text-muted-foreground leading-relaxed">
-                  毛乔平时会写一点奇奇怪怪或者有点矫情的小东西。不停变来变去的座右铭最后定格在 <span className="text-foreground font-medium">"即使生活并不诗意，也请你诗性地生活。"</span>
+                  毛乔平时会写一点奇奇怪怪或者有点矫情的小东西。虽说文笔不算怎么样但再怎么说也是一种记录。不停变来变去的座右铭最后定格在 <span className="text-foreground font-medium">"即使生活并不诗意，也请你诗性地生活。"</span>
                 </p>
                 <p className="text-muted-foreground leading-relaxed">
                   浅尝辄止的事情有一大沓，但真正坚持下来的只有薄薄一点点。本站的写东西和geek应该算是两个，你能看到它们或许也是某种幸存者效应吧。

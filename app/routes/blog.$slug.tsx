@@ -49,9 +49,12 @@ const components: Record<string, React.ComponentType<any>> = {
 };
 
 export function meta({ loaderData }: { loaderData: { frontmatter: Frontmatter } }) {
+  const { title, excerpt } = loaderData.frontmatter;
+  const description = excerpt || title;
+
   return [
-    { title: `${loaderData.frontmatter.title} - M.Joe Site` },
-    { name: "description", content: loaderData.frontmatter.title },
+    { title: `${title} - M.Joe Page` },
+    { name: "description", content: description },
   ];
 }
 
