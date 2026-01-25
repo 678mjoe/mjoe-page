@@ -63,7 +63,7 @@ export default function HomePage() {
             className="text-xl text-muted-foreground mb-4 flex items-center gap-2"
           >
             <Sparkles className="size-5 text-primary" />
-            即使生活并不诗意，也请你诗性的生活
+            即使生活并不诗意，也请你诗性地生活
           </motion.p>
 
           <motion.div
@@ -80,7 +80,7 @@ export default function HomePage() {
             </Link>
             <Link to="/about">
               <Button variant="outline" className="gap-2 min-w-[60px]">
-                关于我
+                关于本站
               </Button>
             </Link>
           </motion.div>
