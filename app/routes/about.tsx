@@ -56,7 +56,7 @@ export default function AboutPage() {
           <p className="text-muted-foreground mt-2">毛乔的个人主页</p>
         </motion.div>
 
-        <div className="space-y-6 max-w-3xl">
+        <div className="space-y-6">
           <Section index={1}>
             <Card className="hover:shadow-md transition-shadow">
               <CardContent className="pt-2">

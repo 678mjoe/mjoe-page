@@ -33,20 +33,20 @@ export default function HomePage() {
             transition={{ type: "spring", duration: 0.8, bounce: 0.3 }}
             className="relative mb-8"
           >
-            <div className="w-40 h-40 rounded-full bg-linear-to-br from-primary to-primary/60 flex items-center justify-center shadow-2xl shadow-primary/20 overflow-hidden">
+            <div className="w-40 h-40 rounded-full flex items-center justify-center shadow-2xl shadow-primary/20 overflow-hidden">
               <img
                 src="/MJoe.svg"
                 alt="M.Joe"
                 width={120}
                 height={120}
-                className="object-contain invert brightness-0"
+                className="object-contain"
               />
             </div>
             <motion.div
               animate={{
                 boxShadow: [
-                  "0 0 0 0px rgba(99, 102, 241, 0.3)",
-                  "0 0 0 15px rgba(99, 102, 241, 0)",
+                  "0 0 0 0px rgba(51, 153, 255, 0.3)",
+                  "0 0 0 15px rgba(51, 153, 255, 0)",
                 ]
               }}
               transition={{ duration: 2, repeat: Infinity }}
