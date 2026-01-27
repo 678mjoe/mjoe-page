@@ -33,7 +33,7 @@ export default function HomePage() {
             transition={{ type: "spring", duration: 0.8, bounce: 0.3 }}
             className="relative mb-8"
           >
-            <div className="w-40 h-40 rounded-full flex items-center justify-center shadow-2xl shadow-primary/20 overflow-hidden">
+            <div className="w-40 h-40 bg-white rounded-full flex items-center justify-center shadow-2xl shadow-primary/20 overflow-hidden">
               <img
                 src="/MJoe.svg"
                 alt="M.Joe"
