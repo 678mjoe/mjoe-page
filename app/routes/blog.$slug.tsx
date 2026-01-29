@@ -53,7 +53,7 @@ export function meta({ loaderData }: { loaderData: { frontmatter: Frontmatter } 
   const description = excerpt || title;
 
   return [
-    { title: `${title} - M.Joe Page` },
+    { title: `${title} - M.Joe Page | 毛乔的个人主页` },
     { name: "description", content: description },
   ];
 }

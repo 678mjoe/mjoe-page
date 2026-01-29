@@ -10,8 +10,8 @@ import { getAllPosts, type Post } from "@/lib/posts";
 
 export function meta() {
   return [
-    { title: "博客 - M.Joe Page" },
-    { name: "description", content: "毛乔的博客，留下走过的足迹。包含随便写写和技术博客两个分类。" },
+    { title: "博客 - M.Joe Page | 毛乔的个人主页" },
+    { name: "description", content: "毛乔的博客。" },
   ];
 }
 

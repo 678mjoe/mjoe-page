@@ -9,8 +9,8 @@ import { Badge } from "@/components/ui/badge";
 
 export function meta() {
   return [
-    { title: "关于 - M.Joe Page" },
-    { name: "description", content: "了解毛乔、本站技术栈和版权信息。" },
+    { title: "关于 - M.Joe Page | 毛乔的个人主页" },
+    { name: "description", content: "关于毛乔和他的主页" },
   ];
 }
 

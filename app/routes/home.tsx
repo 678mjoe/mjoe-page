@@ -7,8 +7,8 @@ import { ArrowRight, Sparkles } from "lucide-react";
 
 export function meta() {
   return [
-    { title: "M.Joe Page" },
-    { name: "description", content: "即使生活并不诗意，也请你诗性地生活。毛乔的个人主页，记录技术与生活的点滴。" },
+    { title: "M.Joe Page | 毛乔的个人主页" },
+    { name: "description", content: "欢迎来到毛乔的个人主页(^∀^) 即使生活并不诗意，也请你诗性地生活。" },
   ];
 }
 
