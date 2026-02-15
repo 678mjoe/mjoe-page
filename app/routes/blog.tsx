@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getAllPosts, type Post } from "@/lib/posts";
+import { LikeButton } from "@/components/like-button";
 
 export function meta() {
   return [
@@ -15,12 +16,45 @@ export function meta() {
   ];
 }
 
-export async function loader() {
-  const posts = getAllPosts();
-  return { posts };
+export async function loader({
+	context,
+}: {
+	context: { cloudflare: { env: { DB: D1Database } } };
+}) {
+	const posts = getAllPosts();
+	const db = context.cloudflare.env.DB;
+
+	// Fetch likes for all posts
+	const likesMap = new Map<string, number>();
+
+	try {
+		const slugs = posts.map((p) => p.slug);
+
+		// Batch fetch all posts that exist in DB
+		for (const slug of slugs) {
+			const post = await db.prepare("SELECT likes_count FROM posts WHERE slug = ?").bind(slug).first();
+			if (post) {
+				likesMap.set(slug, (post.likes_count as number) || 0);
+			} else {
+				// Create post entry if not exists
+				await db.prepare("INSERT INTO posts (slug, likes_count) VALUES (?, 0)").bind(slug).run();
+				likesMap.set(slug, 0);
+			}
+		}
+	} catch (error) {
+		console.error("Failed to fetch likes:", error);
+	}
+
+	// Attach likes to posts
+	const postsWithLikes = posts.map((post) => ({
+		...post,
+		likes: likesMap.get(post.slug) || 0,
+	}));
+
+	return { posts: postsWithLikes };
 }
 
-function PostCard({ post, index }: { post: Post; index: number }) {
+function PostCard({ post, index }: { post: Post & { likes: number }; index: number }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
@@ -33,6 +67,7 @@ function PostCard({ post, index }: { post: Post; index: number }) {
           <article>
             <div className="flex items-center justify-between mb-3">
               <time className="text-sm text-muted-foreground">{post.date}</time>
+              <LikeButton slug={post.slug} initialLikes={post.likes} readOnly />
             </div>
             <Link to={`/blog/${post.slug}`}>
               <h2 className="text-2xl font-semibold mb-3 hover:text-primary transition-colors">
@@ -57,7 +92,7 @@ function PostCard({ post, index }: { post: Post; index: number }) {
 }
 
 export default function BlogPage() {
-  const { posts } = useLoaderData<{ posts: Post[] }>();
+	const { posts } = useLoaderData<{ posts: Array<Post & { likes: number }> }>();
   const essayPosts = posts.filter((p) => p.category === "essay");
   const techPosts = posts.filter((p) => p.category === "tech");
 

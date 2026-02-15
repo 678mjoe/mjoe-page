@@ -7,8 +7,14 @@
 	"name": "mjoe-page",
 	"compatibility_date": "2025-04-04",
 	"main": "./workers/app.ts",
-	"vars": {
-	},
+	"vars": {},
+	"d1_databases": [
+		{
+			"binding": "DB",
+			"database_name": "blog-likes",
+			"database_id": "1e0128d5-e838-4a86-9048-b537f932f5ec"
+		}
+	],
 	"observability": {
 		"enabled": true
 	}

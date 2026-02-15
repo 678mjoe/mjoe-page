@@ -5,6 +5,7 @@ import { motion } from "motion/react";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { getPost, type Frontmatter } from "@/lib/posts";
+import { LikeButton } from "@/components/like-button";
 
 const components: Record<string, React.ComponentType<any>> = {
   h1: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
@@ -58,22 +59,50 @@ export function meta({ loaderData }: { loaderData: { frontmatter: Frontmatter } 
   ];
 }
 
-export async function loader({ params }: { params: { slug: string } }) {
-  const { slug } = params;
-  const module = getPost(slug);
+export async function loader({
+	params,
+	context,
+}: {
+	params: { slug: string };
+	context: { cloudflare: { env: { DB: D1Database } } };
+}) {
+	const { slug } = params;
+	const module = getPost(slug);
 
-  if (!module) {
-    throw new Response("Not Found", { status: 404 });
-  }
+	if (!module) {
+		throw new Response("Not Found", { status: 404 });
+	}
 
-  return {
-    frontmatter: module.frontmatter,
-  };
+	// Fetch likes from D1 database
+	const db = context.cloudflare.env.DB;
+	let initialLikes = 0;
+
+	try {
+		let post = await db.prepare("SELECT likes_count FROM posts WHERE slug = ?").bind(slug).first();
+
+		if (!post) {
+			// Create post entry if not exists
+			await db.prepare("INSERT INTO posts (slug, likes_count) VALUES (?, 0)").bind(slug).run();
+			post = { likes_count: 0 };
+		}
+
+		initialLikes = (post.likes_count as number) || 0;
+	} catch (error) {
+		console.error("Failed to fetch likes:", error);
+	}
+
+	return {
+		frontmatter: module.frontmatter,
+		initialLikes,
+	};
 }
 
 export default function BlogPostPage() {
-  const { frontmatter } = useLoaderData() as { frontmatter: Frontmatter };
-  const { slug } = useParams() as { slug: string };
+	const { frontmatter, initialLikes } = useLoaderData() as {
+		frontmatter: Frontmatter;
+		initialLikes: number;
+	};
+	const { slug } = useParams() as { slug: string };
   const module = slug ? getPost(slug) : null;
 
   if (!module) {
@@ -138,6 +167,15 @@ export default function BlogPostPage() {
           className="prose prose-neutral prose-lg max-w-none dark:prose-invert font-serif"
         >
           <Content components={components} />
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6, duration: 0.6 }}
+          className="mt-8 flex items-center gap-4"
+        >
+          <LikeButton slug={slug} initialLikes={initialLikes} />
         </motion.div>
       </article>
     </motion.div>
