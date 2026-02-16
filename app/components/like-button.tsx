@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Heart } from "lucide-react";
-import { motion } from "motion/react";
+import { Heart, AlertCircle } from "lucide-react";
+import { motion, AnimatePresence } from "motion/react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import type { LikeStatus } from "@/lib/likes";
@@ -13,10 +13,16 @@ interface LikeButtonProps {
 	readOnly?: boolean;
 }
 
+type ErrorMessage = {
+	message: string;
+	type: "error" | "warning";
+};
+
 export function LikeButton({ slug, initialLikes, readOnly = false }: LikeButtonProps) {
 	const [likes, setLikes] = useState(initialLikes);
 	const [isLiked, setIsLiked] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
+	const [error, setError] = useState<ErrorMessage | null>(null);
 
 	// Get or create visitor ID from localStorage
 	const getOrCreateVisitorId = (): string => {
@@ -29,6 +35,14 @@ export function LikeButton({ slug, initialLikes, readOnly = false }: LikeButtonP
 		}
 		return id;
 	};
+
+	// Clear error messages after 3 seconds
+	useEffect(() => {
+		if (error) {
+			const timer = setTimeout(() => setError(null), 3000);
+			return () => clearTimeout(timer);
+		}
+	}, [error]);
 
 	// Check if the current visitor has liked this post on mount
 	useEffect(() => {
@@ -56,6 +70,8 @@ export function LikeButton({ slug, initialLikes, readOnly = false }: LikeButtonP
 		if (isLoading || readOnly) return;
 
 		setIsLoading(true);
+		setError(null);
+
 		const optimisticIsLiked = !isLiked;
 		const optimisticLikes = optimisticIsLiked ? likes + 1 : likes - 1;
 
@@ -73,7 +89,18 @@ export function LikeButton({ slug, initialLikes, readOnly = false }: LikeButtonP
 				body: JSON.stringify({ visitorId }),
 			});
 
-			if (!response.ok) throw new Error("Failed to toggle like");
+			if (!response.ok) {
+				// Handle different error statuses
+				if (response.status === 429) {
+					const errorData = (await response.json()) as { error?: string };
+					throw new Error(errorData.error || "Too many requests. Please try again later.");
+				} else if (response.status === 403) {
+					const errorData = (await response.json()) as { error?: string };
+					throw new Error(errorData.error || "Request blocked for security reasons.");
+				} else {
+					throw new Error("Failed to toggle like");
+				}
+			}
 
 			const data = (await response.json()) as LikeStatus & { action: string };
 
@@ -84,6 +111,14 @@ export function LikeButton({ slug, initialLikes, readOnly = false }: LikeButtonP
 			// Rollback on error
 			setIsLiked(previousIsLiked);
 			setLikes(previousLikes);
+
+			// Show user-friendly error message
+			const message = error instanceof Error ? error.message : "An error occurred";
+			setError({
+				message,
+				type: message.includes("security") ? "error" : "warning",
+			});
+
 			console.error("Like toggle error:", error);
 		} finally {
 			setIsLoading(false);
@@ -102,29 +137,50 @@ export function LikeButton({ slug, initialLikes, readOnly = false }: LikeButtonP
 
 	// Interactive version for blog post page
 	return (
-		<motion.div
-			whileHover={{ scale: isLoading ? 1 : 1.02 }}
-			whileTap={{ scale: isLoading ? 1 : 0.98 }}
-		>
-			<Button
-				variant={isLiked ? "default" : "outline"}
-				size="sm"
-				onClick={handleToggle}
-				disabled={isLoading}
-				className={cn(
-					"gap-2",
-					isLiked && "bg-red-500 text-white hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-700"
-				)}
-				aria-label={isLiked ? "Unlike post" : "Like post"}
+		<div className="flex flex-col items-start gap-2">
+			<motion.div
+				whileHover={{ scale: isLoading ? 1 : 1.02 }}
+				whileTap={{ scale: isLoading ? 1 : 0.98 }}
 			>
-				<motion.div
-					animate={{ scale: isLiked ? [1, 1.3, 1] : 1 }}
-					transition={{ duration: 0.3 }}
+				<Button
+					variant={isLiked ? "default" : "outline"}
+					size="sm"
+					onClick={handleToggle}
+					disabled={isLoading}
+					className={cn(
+						"gap-2",
+						isLiked && "bg-red-500 text-white hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-700"
+					)}
+					aria-label={isLiked ? "Unlike post" : "Like post"}
 				>
-					<Heart className={cn("size-4", isLiked && "fill-current")} />
-				</motion.div>
-				<span className="font-medium tabular-nums">{likes}</span>
-			</Button>
-		</motion.div>
+					<motion.div
+						animate={{ scale: isLiked ? [1, 1.3, 1] : 1 }}
+						transition={{ duration: 0.3 }}
+					>
+						<Heart className={cn("size-4", isLiked && "fill-current")} />
+					</motion.div>
+					<span className="font-medium tabular-nums">{likes}</span>
+				</Button>
+			</motion.div>
+
+			{/* Error message display */}
+			<AnimatePresence>
+				{error && (
+					<motion.div
+						initial={{ opacity: 0, height: 0, y: -10 }}
+						animate={{ opacity: 1, height: "auto", y: 0 }}
+						exit={{ opacity: 0, height: 0, y: -10 }}
+						transition={{ duration: 0.2 }}
+						className={cn(
+							"flex items-center gap-2 text-sm",
+							error.type === "error" ? "text-red-500" : "text-amber-500"
+						)}
+					>
+						<AlertCircle className="size-4 shrink-0" />
+						<span>{error.message}</span>
+					</motion.div>
+				)}
+			</AnimatePresence>
+		</div>
 	);
 }

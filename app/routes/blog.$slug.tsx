@@ -169,11 +169,19 @@ export default function BlogPostPage() {
           <Content components={components} />
         </motion.div>
 
+        {/* Divider */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.6, duration: 0.6 }}
+          className="border-t border-border mt-12 mb-8"
+        />
+
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6, duration: 0.6 }}
-          className="mt-8 flex items-center gap-4"
+          className="flex items-center gap-4"
         >
           <LikeButton slug={slug} initialLikes={initialLikes} />
         </motion.div>
