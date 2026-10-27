@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { getPost, type Frontmatter } from "@/lib/posts";
 import { LikeButton } from "@/components/like-button";
+import { PostStatus } from "@/components/post-status";
 
 const components: Record<string, React.ComponentType<any>> = {
   h1: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
@@ -132,12 +133,12 @@ export default function BlogPostPage() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2, duration: 0.6 }}
       >
-        <Link to="/blog">
-          <Button variant="ghost" size="sm" className="gap-2 mb-6">
+        <Button variant="ghost" size="sm" className="gap-2 mb-6" asChild>
+          <Link to="/blog">
             <ArrowLeft className="size-4" />
             返回博客
-          </Button>
-        </Link>
+          </Link>
+        </Button>
       </motion.div>
 
       <article>
@@ -149,22 +150,21 @@ export default function BlogPostPage() {
         >
           {frontmatter.title}
         </motion.h1>
-        {frontmatter.date && (
-          <motion.time
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.6 }}
-            className="text-muted-foreground mb-8 block"
-          >
-            {frontmatter.date}
-          </motion.time>
-        )}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4, duration: 0.6 }}
+          className="mb-8 flex flex-wrap items-center gap-x-3 gap-y-1 text-muted-foreground"
+        >
+          {frontmatter.date && <time>{frontmatter.date}</time>}
+          <PostStatus completed={frontmatter.completed} />
+        </motion.div>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.6 }}
-          className="prose prose-neutral prose-lg max-w-none dark:prose-invert font-serif"
+          className="prose prose-neutral prose-2xl max-w-none dark:prose-invert font-serif"
         >
           <Content components={components} />
         </motion.div>

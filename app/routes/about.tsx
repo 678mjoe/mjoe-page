@@ -46,12 +46,12 @@ export default function AboutPage() {
           transition={{ delay: 0.2, duration: 0.4 }}
           className="mb-8"
         >
-          <Link to="/">
-            <Button variant="ghost" size="sm" className="gap-2 mb-4">
+          <Button variant="ghost" size="sm" className="gap-2 mb-4" asChild>
+            <Link to="/">
               <ArrowLeft className="size-4" />
               返回首页
-            </Button>
-          </Link>
+            </Link>
+          </Button>
           <h1 className="text-4xl font-bold">关于</h1>
           <p className="text-muted-foreground mt-2">毛乔的个人主页</p>
         </motion.div>
@@ -59,8 +59,8 @@ export default function AboutPage() {
         <div className="space-y-6">
           <Section index={1}>
             <Card className="hover:shadow-md transition-shadow">
-              <CardContent className="pt-2">
-                <div className="flex items-start gap-6">
+              <CardContent>
+                <div className="flex flex-col items-start gap-6 sm:flex-row">
                   <motion.div
                     whileHover={{ y: -5 }}
                     transition={{ duration: 0.2 }}
@@ -76,7 +76,7 @@ export default function AboutPage() {
                       />
                     </div>
                   </motion.div>
-                  <div className="flex-1 space-y-3">
+                  <div className="min-w-0 flex-1 space-y-3">
                     <h2 className="text-2xl font-semibold flex items-center gap-2">
                       <Sparkles className="size-5 text-primary" />
                       关于毛乔
@@ -101,7 +101,7 @@ export default function AboutPage() {
 
           <Section index={2}>
             <Card className="hover:shadow-md transition-shadow">
-              <CardContent className="pt-2 space-y-4">
+              <CardContent className="space-y-4">
                 <h2 className="text-2xl font-semibold">为啥本站是这样的</h2>
                 <p className="text-muted-foreground leading-relaxed">
                   毛乔平时会写一点奇奇怪怪或者有点矫情的小东西。虽说文笔不算怎么样但再怎么说也是一种记录。不停变来变去的座右铭最后定格在 <span className="text-foreground font-medium">"即使生活并不诗意，也请你诗性地生活。"</span>
@@ -151,7 +151,7 @@ export default function AboutPage() {
 
           <Section index={4}>
             <Card className="hover:shadow-md transition-shadow">
-              <CardContent className="pt-2 space-y-4">
+              <CardContent className="space-y-4">
                 <h2 className="text-2xl font-semibold">版权信息</h2>
                 <div className="space-y-3">
                   <p className="flex items-center gap-2 text-muted-foreground">
@@ -174,7 +174,7 @@ export default function AboutPage() {
 
           <Section index={5}>
             <Card className="hover:shadow-md transition-shadow">
-              <CardContent className="pt-2">
+              <CardContent>
                 <h2 className="text-2xl font-semibold mb-4">联系我</h2>
                 <div className="space-y-3">
                   <a

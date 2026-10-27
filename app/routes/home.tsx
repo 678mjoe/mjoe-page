@@ -14,13 +14,13 @@ export function meta() {
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen relative overflow-hidden">
+    <div className="min-h-[calc(100vh-52px)] relative overflow-hidden">
       <div className="absolute inset-0 -z-10">
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl animate-pulse" />
         <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl animate-pulse delay-1000" />
       </div>
 
-      <div className="container mx-auto px-4 min-h-screen flex flex-col max-w-[1000px]">
+      <div className="container mx-auto px-4 min-h-[calc(100vh-52px)] flex flex-col max-w-[1000px]">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -79,17 +79,15 @@ export default function HomePage() {
             transition={{ delay: 0.5, duration: 0.6 }}
             className="flex flex-col sm:flex-row gap-4"
           >
-            <Link to="/blog">
-              <Button className="gap-2 min-w-[80px]">
+            <Button className="gap-2 min-w-[80px]" asChild>
+              <Link to="/blog">
                 看看博客
                 <ArrowRight className="size-4" />
-              </Button>
-            </Link>
-            <Link to="/about">
-              <Button variant="outline" className="gap-2 min-w-[60px]">
-                关于
-              </Button>
-            </Link>
+              </Link>
+            </Button>
+            <Button variant="outline" className="gap-2 min-w-[60px]" asChild>
+              <Link to="/about">关于</Link>
+            </Button>
           </motion.div>
         </motion.div>
       </div>

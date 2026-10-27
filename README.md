@@ -14,6 +14,19 @@ Technical Stack:
 
 AI Agent was used during the development.
 
+## Blog post status
+
+In an MDX post's frontmatter, set `completed: false` to mark the post as unfinished. Set `completed: true` or omit the field for a completed post.
+
+```yaml
+---
+title: "文章标题"
+date: "2026-01-25"
+category: "essay"
+completed: false
+---
+```
+
 ## Copyright Statement
 
 Since this repo is a mixture of codes and blog posts, I now make the statement below.

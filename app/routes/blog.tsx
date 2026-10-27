@@ -8,6 +8,7 @@ import { ArrowLeft } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getAllPosts, type Post } from "@/lib/posts";
 import { LikeButton } from "@/components/like-button";
+import { PostStatus } from "@/components/post-status";
 
 export function meta() {
   return [
@@ -63,10 +64,13 @@ function PostCard({ post, index }: { post: Post & { likes: number }; index: numb
       whileHover={{ y: -5, transition: { duration: 0.2 } }}
     >
       <Card className="hover:shadow-lg transition-shadow">
-        <CardContent className="pt-6">
+        <CardContent>
           <article>
             <div className="flex items-center justify-between mb-3">
-              <time className="text-sm text-muted-foreground">{post.date}</time>
+              <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+                <time className="text-sm text-muted-foreground">{post.date}</time>
+                <PostStatus completed={post.completed} />
+              </div>
               <LikeButton slug={post.slug} initialLikes={post.likes} readOnly />
             </div>
             <Link to={`/blog/${post.slug}`}>
@@ -79,11 +83,11 @@ function PostCard({ post, index }: { post: Post & { likes: number }; index: numb
                 {post.excerpt}
               </p>
             )}
-            <Link to={`/blog/${post.slug}`}>
-              <Button variant="link" className="px-0">
+            <Button variant="link" className="px-0" asChild>
+              <Link to={`/blog/${post.slug}`}>
                 阅读全文 →
-              </Button>
-            </Link>
+              </Link>
+            </Button>
           </article>
         </CardContent>
       </Card>
@@ -109,12 +113,12 @@ export default function BlogPage() {
         transition={{ delay: 0.2, duration: 0.6 }}
         className="mb-8"
       >
-        <Link to="/">
-          <Button variant="ghost" size="sm" className="gap-2 mb-4">
+        <Button variant="ghost" size="sm" className="gap-2 mb-4" asChild>
+          <Link to="/">
             <ArrowLeft className="size-4" />
             返回首页
-          </Button>
-        </Link>
+          </Link>
+        </Button>
         <h1 className="text-4xl font-bold">博客</h1>
         <p className="text-muted-foreground mt-2">留下来过的足迹</p>
       </motion.div>
@@ -132,9 +136,9 @@ export default function BlogPage() {
 
           <TabsContent value="essay" className="space-y-6">
             {essayPosts.length === 0 ? (
-              <Card>
+              <Card className="py-0">
                 <CardContent className="py-12 text-center">
-                  <p className="text-muted-foreground mb-4">暂时没有文章哦</p>
+                  <p className="text-muted-foreground">暂时没有文章哦</p>
                 </CardContent>
               </Card>
             ) : (
@@ -144,9 +148,9 @@ export default function BlogPage() {
 
           <TabsContent value="tech" className="space-y-6">
             {techPosts.length === 0 ? (
-              <Card>
+              <Card className="py-0">
                 <CardContent className="py-12 text-center">
-                  <p className="text-muted-foreground mb-4">暂时没有技术文章哦</p>
+                  <p className="text-muted-foreground">暂时没有技术文章哦</p>
                 </CardContent>
               </Card>
             ) : (

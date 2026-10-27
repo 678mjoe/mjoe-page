@@ -3,6 +3,7 @@ export interface Frontmatter {
   date: string;
   excerpt?: string;
   category: "essay" | "tech";
+  completed?: boolean;
 }
 
 export interface MDXModule {
@@ -16,6 +17,7 @@ export interface Post {
   date: string;
   excerpt?: string;
   category: "essay" | "tech";
+  completed?: boolean;
 }
 
 // Load all MDX files from content directory

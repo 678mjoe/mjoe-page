@@ -116,7 +116,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
             </NavigationMenu>
           </div>
         </header>
-        <main className="pt-12 min-h-screen">{children}</main>
+        <main className="pt-[52px] min-h-screen">{children}</main>
         <Footer />
         <ScrollRestoration />
         <Scripts />
