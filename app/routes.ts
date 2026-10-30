@@ -6,5 +6,6 @@ export default [
   route("blog", "routes/blog.tsx"),
   route("blog/:slug", "routes/blog.$slug.tsx"),
   route("sitemap.xml", "routes/sitemap[.]xml.tsx"),
-  route("api/likes/:slug", "routes/api.likes.$slug.tsx")
+  route("api/likes/:slug", "routes/api.likes.$slug.tsx"),
+  route("api/views/:slug", "routes/api.views.$slug.tsx")
 ] satisfies RouteConfig;

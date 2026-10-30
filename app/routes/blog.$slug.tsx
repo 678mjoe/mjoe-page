@@ -7,6 +7,7 @@ import { ArrowLeft } from "lucide-react";
 import { getPost, type Frontmatter } from "@/lib/posts";
 import { LikeButton } from "@/components/like-button";
 import { PostStatus } from "@/components/post-status";
+import { PostViewTracker } from "@/components/post-view-tracker";
 
 const components: Record<string, React.ComponentType<any>> = {
   h1: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
@@ -141,6 +142,7 @@ export default function BlogPostPage() {
         </Button>
       </motion.div>
 
+      <PostViewTracker slug={slug} />
       <article>
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
